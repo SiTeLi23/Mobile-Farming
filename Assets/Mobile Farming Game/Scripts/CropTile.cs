@@ -34,12 +34,29 @@ public class CropTile : MonoBehaviour
     {
         state = TileFieldState.Watered;
 
-        //change color after water
-        tileRenderer.material.color = Color.white * .45f;
+        //changing tile color
+        tileRenderer.gameObject.LeanColor(Color.white * 0.45f, 1);
         //scale up crop;
         crop.ScaleUp();
-    }
 
+        //StartCoroutine(ColorTileCoroutine());
+    }
+   /* IEnumerator ColorTileCoroutine() 
+    {
+        float duration = 1;
+        float timer = 0;
+
+        while(timer< duration) 
+        {
+            float t = timer / duration;
+            Color lerpedColor = Color.Lerp(Color.white, Color.white * 0.45f, t);
+
+            tileRenderer.material.color = lerpedColor;
+            timer += Time.deltaTime;
+            yield return null; // skip a frame to prevent blocking the main thread
+        }
+        yield return null;
+    }*/
     public bool IsEmpty()
     {
         return state == TileFieldState.Empty;
@@ -49,4 +66,6 @@ public class CropTile : MonoBehaviour
     {
         return state == TileFieldState.Sown;
     }
+
+
 }

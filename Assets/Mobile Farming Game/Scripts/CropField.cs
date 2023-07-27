@@ -36,7 +36,7 @@ public class CropField : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void SeedsCollidedCallback(Vector3[] seedPositions) 
@@ -102,6 +102,26 @@ public class CropField : MonoBehaviour
 
         onFullyWatered?.Invoke(this);
     }
+
+    #region test function
+    [NaughtyAttributes.Button]
+    private void InstantlySowTiles() 
+    {
+        for (int i = 0; i < cropTiles.Count; i++)
+        {
+            Sow(cropTiles[i]);
+        }
+    }
+
+    [NaughtyAttributes.Button]
+    private void InstantlyWaterTiles()
+    {
+        for (int i = 0; i < cropTiles.Count; i++)
+        {
+            Water(cropTiles[i]);
+        }
+    }
+    #endregion
 
     private CropTile GetClosestCropTile(Vector3 seedPosition)
     {
