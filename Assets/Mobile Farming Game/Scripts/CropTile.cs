@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum TileFieldState { Empty, Sown, Watered }
 public class CropTile : MonoBehaviour
 {
     private TileFieldState state;
@@ -12,6 +11,10 @@ public class CropTile : MonoBehaviour
     [SerializeField] private Transform cropParent;
     [SerializeField] private MeshRenderer tileRenderer;
     private Crop crop;
+    private CropData cropData;
+
+    [Header("Events")]
+    public static Action<CropType> onCropHarvested;
     void Start()
     {
         state = TileFieldState.Empty;
@@ -28,6 +31,8 @@ public class CropTile : MonoBehaviour
         state = TileFieldState.Sown;
 
         crop = Instantiate(cropData.cropPrefab, transform.position, Quaternion.identity,cropParent);
+
+        this.cropData = cropData;
     }
 
     public void Water(CropData cropData)
@@ -57,6 +62,17 @@ public class CropTile : MonoBehaviour
         }
         yield return null;
     }*/
+
+    public void Harvest() 
+    {
+        state = TileFieldState.Empty;
+
+        crop.ScaleDown();
+
+        tileRenderer.gameObject.LeanColor(Color.white, 1);
+
+        onCropHarvested?.Invoke(cropData.cropType);
+    }
     public bool IsEmpty()
     {
         return state == TileFieldState.Empty;
